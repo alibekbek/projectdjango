@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Результаты анализа</h1>
+    <h2>Сумма потраченных денег каждым заказчиком за каждый месяц:</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Заказчик</th>
+                <th>Год</th>
+                <th>Месяц</th>
+                <th>Общая сумма потраченных денег</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in customer_spending_per_month %}
+            <tr>
+                <td>{{ entry.customer__name }}</td>
+                <td>{{ entry.year }}</td>
+                <td>{{ entry.month }}</td>
+                <td>{{ entry.total_spent }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Заработок каждого поставщика за каждый месяц:</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Поставщик</th>
+                <th>Месяц</th>
+                <th>Общий заработок</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in shipper_earning_per_month %}
+            <tr>
+                <td>{{ entry.shipper__name }}</td>
+                <td>{{ entry.date__year }}-{{ entry.date__month }}</td>
+                <td>{{ entry.total_earned }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+<h2>Топ-3 продаваемых товаров за каждый месяц:</h2>
+{% for month_data in top_items_pm %}
+    <h2>{{ month_data.year }}-{{ month_data.month }}</h2>
+    <ul>
+        {% for item in month_data.top_items %}
+        <li>{{ item.item__name }} - {{ item.total_sold }}</li>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+
+{% endblock %}
+
+
